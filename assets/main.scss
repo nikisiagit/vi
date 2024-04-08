@@ -1,0 +1,46 @@
+body {
+  overflow: auto;
+  height: 100vh;
+}
+
+.apexcharts-toolbar{
+  z-index: 0 !important;
+}
+
+.v-subheader {
+  height: 28px !important;
+}
+
+.glass-effect {
+  box-shadow: 0 0 1rem 0 rgb(0 0 0 / 20%);
+  backdrop-filter:blur(10px);
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.25s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+body {
+  bottom: 60px !important;
+}
+//#recite-header{
+//  width: calc(100% - 57px) !important;
+//  left: 56px !important;
+//}
+
+#recite-logo-header{
+  display: none;
+}
+
+#recite-close{
+  display: none;
+}
+
+#recite-tooltip-logo {
+  display: none;
+}

@@ -1,0 +1,206 @@
+<template>
+  <v-card>
+    <v-card-text>
+      <!-- Allowed -->
+      <v-form v-model="valid" ref="form" lazy-validation>
+        <v-row>
+        <!-- Allowed Hours -->
+          <v-col>
+            <v-select
+              :items="hours"
+              multiple
+              v-model="allowedHours"
+              :label="allowedHoursLabel"
+              :hint="allowedHoursHint"
+            ></v-select>
+          </v-col>
+        </v-row>
+      <!-- Allowed Minutes-->
+        <v-row>
+          <v-col>
+            <v-select
+              :items="minutes"
+              multiple
+              v-model="allowedMinutes"
+              :label="allowedMinutesLabel"
+              :hint="allowedMinutesHint"
+            ></v-select>
+          </v-col>
+        </v-row>
+        <!-- Allowed Seconds-->
+        <v-row>
+          <v-col>
+            <v-select
+              :items="seconds"
+              v-model="allowedSeconds"
+              multiple
+              :label="allowedSecondsLabel"
+              :hint="allowedSecondsHint"
+            ></v-select>
+          </v-col>
+        </v-row>
+      </v-form>
+      <!-- Properties-->
+      <v-row>
+        <v-col>
+          <v-list>
+            <!-- Required-->
+            <v-list-item class="pa-0">
+              <v-list-item-content>
+                <v-list-item-title>{{requiredLabel}}</v-list-item-title>
+                <v-list-item-subtitle>{{requiredHint}}</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-checkbox v-model="required" @change="changeRequired" />
+              </v-list-item-action>
+            </v-list-item>
+
+            <!-- Visible-->
+            <v-list-item class="pa-0">
+              <v-list-item-content>
+                <v-list-item-title>{{visibleLabel}}</v-list-item-title>
+                <v-list-item-subtitle>{{visibleHint}}</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-checkbox v-model="visible" @change="changeVisible" />
+              </v-list-item-action>
+            </v-list-item>
+
+            <!-- Editable-->
+            <v-list-item class="pa-0">
+              <v-list-item-content>
+                <v-list-item-title>{{editableLabel}}</v-list-item-title>
+                <v-list-item-subtitle>{{editableHint}}</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-checkbox v-model="editable" @change="changeEditable" />
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
+        </v-col>
+      </v-row>
+    </v-card-text>
+    <v-card-actions>
+
+      <!-- cancel  -->
+      <v-btn plain large rounded @click="cancel">{{ $t('cancel') }}</v-btn>
+      <v-spacer />
+
+      <!-- back -->
+      <v-btn text large class="pa-4" color="primary" rounded @click="back">
+        <v-icon small >
+          mdi-arrow-left
+        </v-icon>
+        <v-spacer></v-spacer>
+        {{ $t('back') }}
+      </v-btn>
+
+      <!-- next -->
+      <v-btn :disabled="!isFormValid" large class="pa-4 primary" rounded @click="submit">
+        {{ $t('next') }}
+        <v-spacer></v-spacer>
+        <v-icon small >
+          mdi-arrow-right
+        </v-icon>
+      </v-btn>
+
+    </v-card-actions>
+  </v-card>
+
+
+</template>
+
+
+<script>
+export default {
+  name: "Validation",
+
+  data: () => ({
+    hours: Array.from(Array(24), (_, i) => i.toString().padStart(2, '0')),
+    minutes: Array.from(Array(60), (_, i) => i.toString().padStart(2, '0')),
+    seconds: Array.from(Array(60), (_, i) => i.toString().padStart(2, '0')),
+
+    allowedHours: [],
+    allowedMinutes: [],
+    allowedSeconds: [],
+
+    required: false,
+    visible: false,
+    editable: false,
+
+    valid:false,
+  }),
+
+  methods: {
+    changeRequired() {
+      this.$emit('required', this.required);
+    },
+    changeVisible() {
+      this.$emit('visible', this.visible);
+    },
+    changeEditable() {
+      this.$emit('editable', this.editable);
+    },
+    cancel () {
+      this.$emit('cancel');
+      this.$emit('reset');
+    },
+    back () {
+      this.$emit('back');
+    },
+    submit() {
+      this.$emit('submitted', {
+        allowedHours: this.allowedHours,
+        allowedMinutes: this.allowedMinutes,
+        allowedSeconds: this.allowedSeconds,
+        required: this.required,
+        visible: this.visible,
+        editable: this.editable,
+      });
+    },
+  },
+
+  computed: {
+    allowedHoursLabel() {
+      return this.$t('allowed-hours');
+    },
+    allowedHoursHint() {
+      return this.$t('allowed-hours-hint');
+    },
+    allowedMinutesLabel() {
+      return this.$t('allowed-minutes');
+    },
+    allowedMinutesHint() {
+      return this.$t('allowed-minutes-hint');
+    },
+    allowedSecondsLabel() {
+      return this.$t('allowed-seconds');
+    },
+    allowedSecondsHint() {
+      return this.$t('allowed-seconds-hint');
+    },
+    requiredLabel() {
+      return this.$t('required-label');
+    },
+    requiredHint() {
+      return this.$t('required-hint');
+    },
+    visibleLabel() {
+      return this.$t('visible-label');
+    },
+    visibleHint() {
+      return this.$t('visible-hint');
+    },
+    editableLabel() {
+      return this.$t('editable-label');
+    },
+    editableHint() {
+      return this.$t('editable-hint');
+    },
+    isFormValid() {
+      this.valid = this.$refs.form?.validate();
+      return this.valid;
+    },
+  },
+}
+</script>

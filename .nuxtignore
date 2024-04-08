@@ -1,0 +1,6 @@
+pages/three-d/index.vue
+pages/three-d.vue
+components/booth
+pages/events/_eventId/exhibitors/_exhibitorId/booth.vue
+pages/events/_eventId/exhibitors/_exhibitorId/booth/index.vue
+pages/events/_eventId/exhibitors/_exhibitorId/booth/setup.vue
